@@ -1,0 +1,58 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Clusters_analysis
+
+We have five employees (x1-x5) in an office or branch of our company. A series of tasks (10 tasks) have been carried out and the time it takes to complete them in minutes has been noted, from the time they start until they finish. These tasks refer to the sale of products to a potential customer from when they offer the product to the customer until they close the sale.
+
+Which tasks are more effective to sell the product to the customer?
+
+
+
+```{r , echo = FALSE,warning=FALSE,message=FALSE}
+x1<-c(25,26,25,24,23,22,20,22,24,25)
+x2<-c(50,55,58,59,59,59,58,58,59,60)
+x3<-c(60,65,65,64,62,63,62,61,63,61)
+x4<-c(36,35,34,31,32,33,33,34,37,37)
+x5<-c(40,45,42,42,40,43,38,32,35,45)
+matriz<-matrix(c(x1,x2,x3,x4,x5),ncol=5)
+matriz
+library(apcluster)
+MD<-dist(matriz,method="euclidean",diag=T,upper=T)
+MD2<-MD^2
+plot(MD2)
+resultados<-hclust(MD2, method="ward.D")
+resultados
+plot(resultados)
+grupos<-cutree(resultados,k=2)
+grupos
+rect.hclust(resultados,k=2,border="red")
+grupos1<-cutree(resultados,k=3)
+grupos1
+plot(resultados)
+rect.hclust(resultados,k=3,border="red")
+grupos2<-cutree(resultados,k=4)
+grupos2
+plot(resultados)
+rect.hclust(resultados,k=4,border="red")
+grupos3<-cutree(resultados,k=5)
+grupos3
+plot(resultados)
+rect.hclust(resultados,k=5,border="red")
+
+```
+
+A complete cluster analysis was carried out, finding out how many clusters there are previously with the negative distance matrix of the tasks, obtaining 2 clusters as a result, later we made our Euclidean method distance matrix and used Ward's method, and cut to 2 clusters, finding in the dendrogram that task 1 is a possible anomalous datum due to the great weight it has and tasks 8-9 also but with little weight, being then in theory tasks 2, 3, 4, 5, 6, 7, 10 the more effective.
+
+A cluster analysis of the employees was also carried out, obtaining 3 clusters with the matrix of negative distances, and performing the matrix with the Euclidean method and Ward's method, we cut 3 clusters, finding in the dendrogram that employee 1 is detected as an anomalous data since it has the shortest times per task, and we have groups 2-3 with the highest times per task and 4-5 with intermediate times.
+
